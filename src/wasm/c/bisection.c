@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <emscripten.h>
 #include <math.h>
-#include <time.h>
 int selectFunc = 1;
 
 double f(double x)
@@ -84,16 +83,12 @@ double bisection(float a, float b, int step)
 }
 
 EMSCRIPTEN_KEEPALIVE
-void findBisection(int num)
+double findBisection(int num)
 {
   selectFunc = num;
 
-  double result, timeSpent;
-  clock_t start = clock();
+  double result;
   result = bisection(-0.7, 5, 16);
-  clock_t end = clock();
 
-  timeSpent = (double)(end - start)/ CLOCKS_PER_SEC * 1000;
-  printf("sol: %.15lf\n", result);
-  printf("time spent: %.8lf\n", timeSpent);
+  return result;
 }

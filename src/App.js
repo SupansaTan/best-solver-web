@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { ResultProvider } from "./context/result.js";
 import createModule from "./wasm/mjs/bisection.mjs";
 
 function App() {
   const [bisection, setBisection] = useState();
+  const [sol, setSol] = useState();
+  const [timeSpent, setTimeSpent] = useState();
 
   useEffect(
     () => {
     createModule().then((Module) => {
-      setBisection(() => Module.cwrap("findBisection", "null", ["number"]));
+      setBisection(() => Module.cwrap("findBisection", "float", ["number"]));
     });
   }, []);
 
@@ -15,11 +18,21 @@ function App() {
     return "Loading webassembly...";
   }
 
+  const findRoot = (funcSelect) => {
+    let startTime = performance.now()
+    setSol(bisection(funcSelect))
+    let endTime = performance.now()
+    setTimeSpent(endTime-startTime)
+  }
+
   return (
-    <div className="App">
-      <p>Result show in console</p>
-      <p>{ bisection(3) }</p>
-    </div>
+    <ResultProvider>
+      <div className="App">
+        <p>{ 'result:' + sol }</p>
+        <p>{ 'time spent: ' + timeSpent + ' ms.' }</p>
+        <button onClick={()=> findRoot(3)}>Click to get solution</button>
+      </div>
+    </ResultProvider>
   );
 }
 
