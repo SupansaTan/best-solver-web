@@ -1,41 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { ResultProvider } from "./context/result.js";
 import { SelectFunctionProvider } from "./context/select-function.js";
-import createModule from "./wasm/mjs/bisection.mjs";
+import routes from './routes';
+import NavbarComponent from "./components/navbar/navbar.js";
 
 function App() {
-  const [bisection, setBisection] = useState();
-  const [sol, setSol] = useState();
-  const [timeSpent, setTimeSpent] = useState();
-
-  useEffect(
-    () => {
-    createModule().then((Module) => {
-      setBisection(() => Module.cwrap("findBisection", "float", ["number"]));
-    });
-  }, []);
-
-  if (!bisection) {
-    return "Loading webassembly...";
-  }
-
-  const findRoot = (funcSelect) => {
-    let startTime = performance.now()
-    setSol(bisection(funcSelect))
-    let endTime = performance.now()
-    setTimeSpent(endTime-startTime)
-  }
-
   return (
-    <SelectFunctionProvider>
-      <ResultProvider>
-        <div className="App">
-          <p>{ 'result: ' + sol }</p>
-          <p>{ 'time spent: ' + timeSpent + ' ms.' }</p>
-          <button onClick={()=> findRoot(3)}>Click to get solution</button>
-        </div>
-      </ResultProvider>
-    </SelectFunctionProvider>
+    <BrowserRouter>
+      <SelectFunctionProvider>
+        <ResultProvider>
+          <NavbarComponent/>
+          <div className="container mt-3">
+            <Routes>
+              {
+                routes.map((route, index) => {
+                  return (route.component) ?
+                    (
+                      <Route
+                        key={index}
+                        path={route.path}
+                        element={<route.component/> }
+                      />
+                    ) : (null);
+                })
+              }
+              <Route path="*" element={<Navigate to="/root" />} />
+            </Routes> 
+          </div>
+        </ResultProvider>
+      </SelectFunctionProvider>
+    </BrowserRouter>
   );
 }
 

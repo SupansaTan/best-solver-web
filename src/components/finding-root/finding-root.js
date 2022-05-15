@@ -4,7 +4,7 @@ import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
 import { RootMethod } from "../../constants/root-equaltion.js";
 
-export function FindingRootComponent() {
+export default function FindingRootComponent() {
   const [root, setRoot] = useState();
   const [methodSelect, setMethodSelect] = useState();
   const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
