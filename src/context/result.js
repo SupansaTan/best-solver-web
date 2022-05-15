@@ -11,7 +11,7 @@ export const ResultContext = React.createContext(contextDefault);
 
 export const ResultProvider = ({ children }) => {
   const [sol, setSol] = useState('')
-  const [timeSpent, setTimeSpent] = useState(0.0)
+  const [timeSpent, setTimeSpent] = useState('')
 
   const changeSol = (solution) => setSol(solution);
   const changeTimeSpent = (time) => setTimeSpent(time)

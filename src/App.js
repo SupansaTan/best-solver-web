@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ResultProvider } from "./context/result.js";
+import { SelectFunctionProvider } from "./context/select-function.js";
 import createModule from "./wasm/mjs/bisection.mjs";
 
 function App() {
@@ -26,13 +27,15 @@ function App() {
   }
 
   return (
-    <ResultProvider>
-      <div className="App">
-        <p>{ 'result:' + sol }</p>
-        <p>{ 'time spent: ' + timeSpent + ' ms.' }</p>
-        <button onClick={()=> findRoot(3)}>Click to get solution</button>
-      </div>
-    </ResultProvider>
+    <SelectFunctionProvider>
+      <ResultProvider>
+        <div className="App">
+          <p>{ 'result: ' + sol }</p>
+          <p>{ 'time spent: ' + timeSpent + ' ms.' }</p>
+          <button onClick={()=> findRoot(3)}>Click to get solution</button>
+        </div>
+      </ResultProvider>
+    </SelectFunctionProvider>
   );
 }
 
