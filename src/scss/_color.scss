@@ -1,0 +1,34 @@
+@import './variable.scss';
+
+/* background color */
+.bg {
+  &-lightgrey {
+    background-color: $light-grey;
+  }
+
+  &-grey {
+    background-color: $grey;
+  }
+
+  &-blue {
+    background-color: $blue !important;
+  }
+  
+  &-transparent {
+    background: transparent !important;
+  }
+}
+
+/* border color */
+.border {
+  &-lightgrey {
+    border-color: $light-grey;
+  }
+}
+
+/* text color */
+.text {
+  &-blue {
+    color: $blue !important;
+  }
+}
