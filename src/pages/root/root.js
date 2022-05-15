@@ -5,7 +5,7 @@ import FindingRootComponent from "../../components/finding-root/finding-root";
 function RootPage() {
   return(
     <React.Fragment>
-      <h1>Finding Root</h1>
+      <h1>Root Finding</h1>
       <FunctionSelector/>
       <FindingRootComponent/>
     </React.Fragment>
