@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react"
 import createModule from "../../wasm/mjs/findingRoot.mjs";
 import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
-import { RootMethod } from "../../constants/root-equaltion.js";
+import { RootMethod, RootEquation } from "../../constants/root-equation.js";
+import MathJax from 'react-mathjax';
 
 export default function FindingRootComponent() {
   const [root, setRoot] = useState();
@@ -13,12 +14,11 @@ export default function FindingRootComponent() {
   useEffect(
     () => {
     createModule().then((Module) => {
-      setRoot(() => Module.cwrap("find" + RootMethod[methodSelect], "float", ["number"]));
+      setRoot(() => Module.cwrap("find" + RootMethod[methodSelect], "number", ["number"]));
     });
   }, [methodSelect]);
 
-  const getResult = (event) => {
-    setMethodSelect(event.target.value)
+  const getResult = () => {
     let startTime = performance.now()
     changeSol(root(selectFunc))
     let endTime = performance.now()
@@ -28,10 +28,15 @@ export default function FindingRootComponent() {
   return(
     <React.Fragment>
       <div className="row my-3 mx-1">
-        <p className="col-7 bg-lightgrey rounded-3 p-2 mb-0">function</p>
+        {/* show function */}
+        <p className="col-7 bg-lightgrey rounded-3 p-2 mb-0">
+          <MathJax.Node inline formula={ RootEquation[selectFunc] } />
+        </p>
+
+        {/* select method for find solution */}
         <div className="input-group col">
           <label className="input-group-text" htmlFor="methodSelect">Method</label>
-          <select className="form-select" id="methodSelect" defaultValue='0' onChange={(event)=> getResult(event)}>
+          <select className="form-select" id="methodSelect" defaultValue='0' onChange={(event)=> {setMethodSelect(event.target.value); getResult()}}>
             <option value="0">Choose...</option>
             <option value="1">Bisection</option>
             <option value="2">Newton</option>
@@ -41,6 +46,7 @@ export default function FindingRootComponent() {
         </div>
       </div>
 
+      {/* result */}
       <div className="p-2">
         <p>{ 'solution : ' + sol }</p>
         <p>{ 'time spent : ' + timeSpent }</p>

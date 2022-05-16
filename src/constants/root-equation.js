@@ -1,4 +1,4 @@
-export const RootEqualtion = {
+export const RootEquation = {
   1: `f(x) = e^{-x} -x`,
   2: `f(x) = xe^{0.5x} + 1.2x -5`,
   3: `f(x) = x^{3} - x - 1`,
