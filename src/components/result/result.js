@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import { ResultContext } from "../../context/result.js";
 
 function ResultComponent() {
-  const { sol, timeSpent, pysol, pytimeSpent, graph } = useContext(ResultContext)
+  const { sol, timeSpent, pysol, pytimeSpent, graph, jsSol, jsTimeSpent } = useContext(ResultContext)
 
   return(
     <React.Fragment>
@@ -29,8 +29,8 @@ function ResultComponent() {
         <div className="col">
           <h3 className="mb-1">JavaScript</h3>
           <div className="bg-lightgrey px-3 py-2 rounded-15">
-            <p className="mb-1">Solution: <span className="text-danger">{''}</span></p>
-            <p className="mb-0">Time Spent: <span className="text-danger">{''}</span></p>
+            <p className="mb-1">Solution: <span className="text-danger">{jsSol}</span></p>
+            <p className="mb-0">Time Spent: <span className="text-danger">{jsTimeSpent}</span></p>
           </div>
         </div>
       </div>
