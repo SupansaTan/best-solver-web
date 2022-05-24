@@ -70,7 +70,7 @@ export default function FindingRootComponent() {
     }
 
     getResult()
-  }, [bisection, changePySol, changePyTimeSpent, changeSol, changeTimeSpent, methodSelect, newton, regula, secant, selectFunc])
+  }, [methodSelect, selectFunc])
 
   const selectFunction = () => {
     return (
