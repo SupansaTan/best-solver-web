@@ -3,40 +3,108 @@ import createModule from "../../wasm/mjs/findingIntegral.mjs";
 import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
 import { IntegralMethod, IntegralEquation } from "../../constants/integral-equation.js";
-import MathJax from 'react-mathjax';
+import { Equation } from "../../constants/equation.js";
 
 export default function FindingIntegralComponent() {
-  const [integral, setIntegral] = useState();
-  const [methodSelect, setMethodSelect] = useState(1);
+  const [reimann, setReimann] = useState();
+  const [trapezoid, setTrapezoid] = useState();
+  const [simpson, setSimpson] = useState();
+  const [methodSelect, setMethodSelect] = useState(0);
   const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
-  const { selectFunc } = useContext(SelectFunctionContext)
+  const { pysol, pytimeSpent, changePySol, changePyTimeSpent } = useContext(ResultContext)
+  const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(
     () => {
     createModule().then((Module) => {
-      setIntegral(() => Module.cwrap("find" + IntegralMethod[methodSelect], "number", ["number"]));
+      setReimann(() => Module.cwrap('findReimann', 'number', ['number']));
+      setTrapezoid(() => Module.cwrap('findTrapezoid', 'number', ['number']));
+      setSimpson(() => Module.cwrap('findSimpson', 'number', ['number']))
     });
-  }, [methodSelect]);
+  }, []);
 
-  const getResult = () => {
-    let startTime = performance.now()
-    changeSol(integral(selectFunc))
-    let endTime = performance.now()
-    changeTimeSpent(endTime-startTime)
+  useEffect(() => {
+    const getResult = () => {
+      if(selectFunc>0 && methodSelect>0) {
+        // -- wasm --
+        let startTime;
+        switch(methodSelect) {
+          case 1:
+            startTime = performance.now()
+            changeSol(reimann(selectFunc))
+            break;
+          case 2:
+            startTime = performance.now()
+            changeSol(trapezoid(selectFunc))
+            break;
+          case 3:
+            startTime = performance.now()
+            changeSol(simpson(selectFunc))
+            break;
+          default:
+            return;
+        }
+        let endTime = performance.now()
+        changeTimeSpent(endTime-startTime)
+  
+        // -- pyhon --
+        // http://127.0.0.1:8000 django server
+        fetch(`http://127.0.0.1:8000/api/${IntegralMethod[methodSelect]}/${selectFunc}`)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            changePySol(data.result)
+            changePyTimeSpent(data.time)
+          })
+          .catch(error => {
+            changePySol('')
+            changePyTimeSpent('')
+          })
+      }
+      else {
+        changeSol('')
+        changeTimeSpent('')
+        changePySol('')
+        changePyTimeSpent('')
+      }
+    }
+
+    getResult()
+  }, [methodSelect, selectFunc])
+
+  const selectFunction = () => {
+    return (
+      <React.Fragment>
+        {
+          Equation.map((item, index) => {
+            return (
+              <option value={index+1} key={'equal' + index+1}>
+                { item }
+              </option>
+            )
+          })
+        }
+      </React.Fragment>
+    )
   }
 
   return(
     <React.Fragment>
       <div className="row my-3 mx-1">
-        {/* show function */}
-        <p className="col-7 bg-lightgrey rounded-3 p-2 mb-0">
-          <MathJax.Node inline formula={ IntegralEquation[selectFunc] } />
-        </p>
+        {/* select function */}
+        <div className="col-7 rounded-3">
+          <select className="form-select" id="funcSelect" defaultValue='0' 
+            onChange={(event)=> {changeSelectFunc(Number(event.target.value))}}>
+            <option value="0">Choose Function...</option>
+            { selectFunction() }
+          </select>
+        </div>
 
         {/* select method for find solution */}
         <div className="input-group col">
           <label className="input-group-text" htmlFor="methodSelect">Method</label>
-          <select className="form-select" id="methodSelect" defaultValue='0' onChange={(event)=> {setMethodSelect(event.target.value); getResult()}}>
+          <select className="form-select" id="methodSelect" defaultValue='0' onChange={(event)=> {setMethodSelect(Number(event.target.value))}}>
             <option value="0">Choose...</option>
             <option value="1">Riemann Sum</option>
             <option value="2">Trapezoid Rule</option>
@@ -47,8 +115,12 @@ export default function FindingIntegralComponent() {
 
       {/* result */}
       <div className="p-2">
+        <h1>Web Assambly</h1>
         <p>{ 'solution : ' + sol }</p>
         <p>{ 'time spent : ' + timeSpent }</p>
+        <h1>Python</h1>
+        <p>{ 'solution : ' + pysol }</p>
+        <p>{ 'time spent : ' + pytimeSpent }</p>
       </div>
     </React.Fragment>
   )
