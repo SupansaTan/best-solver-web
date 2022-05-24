@@ -26,7 +26,7 @@ double f(double x)
       return exp(pow(-x,2)) - x;
       break;
     case 7:
-      return (-3.36)*x + 15.25;
+      return -x + 1;
       break;
     case 8:
       return pow(1/5,x) - 2;
@@ -66,7 +66,7 @@ double df(double x)
       return exp(pow(x,2))*(2*x) - 1;
       break;
     case 7:
-      return -3.36;
+      return -1;
       break;
     case 8:
       return -log(5) * pow(1/5,x);
