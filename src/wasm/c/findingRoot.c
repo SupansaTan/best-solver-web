@@ -129,6 +129,7 @@ double findBisection(int num)
 
   double result;
   result = bisection(-0.7, 5, 16);
+  printf("bisection\n");
 
   return result;
 }
@@ -164,7 +165,8 @@ double findNewton(int num)
   selectFunc = num;
 
   double result;
-  result = newton(-0.7, 2, 16);
+  result = newton(-0.7, 5, 16);
+  printf("newton\n");
 
   return result;
 }
@@ -215,6 +217,7 @@ double findSecant(int num)
 
   double result;
   result = secant(-0.7, 5, 16);
+  printf("secant\n");
 
   return result;
 }
@@ -258,6 +261,7 @@ double findRegulaFalsi(int num)
 
   double result;
   result = regula(-0.7, 5, 16);
+  printf("regula\n");
 
   return result;
 }

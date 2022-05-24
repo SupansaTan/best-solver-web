@@ -7,7 +7,10 @@ import { Equation } from "../../constants/equation.js";
 import MathJax from 'react-mathjax';
 
 export default function FindingRootComponent() {
-  const [root, setRoot] = useState();
+  const [bisection, setBisection] = useState();
+  const [newton, setNewton] = useState();
+  const [regula, setRegula] = useState();
+  const [secant, setSecant] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
   const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
   const { pysol, pytimeSpent, changePySol, changePyTimeSpent } = useContext(ResultContext)
@@ -16,36 +19,58 @@ export default function FindingRootComponent() {
   useEffect(
     () => {
     createModule().then((Module) => {
-      setRoot(() => Module.cwrap("find" + RootMethod[methodSelect], "number", ["number"]));
+      setBisection(() => Module.cwrap('findBisection', 'number', ['number']));
+      setNewton(() => Module.cwrap('findNewton', 'number', ['number']));
+      setRegula(() => Module.cwrap('findRegulaFalsi', 'number', ['number']));
+      setSecant(() => Module.cwrap('findSecant', 'number', ['number']));
     });
-  }, [methodSelect]);
+  }, []);
 
-  const getResult = () => {
-    if(selectFunc>0 && methodSelect>0) {
-      // -- wasm --
-      let startTime = performance.now()
-      changeSol(root(selectFunc))
-      let endTime = performance.now()
-      changeTimeSpent(endTime-startTime)
+  useEffect(() => {
+    const getResult = () => {
+      if(selectFunc>0 && methodSelect>0) {
+        // -- wasm --
+        let startTime = performance.now()
+        switch(methodSelect) {
+          case 1:
+            changeSol(bisection(selectFunc))
+            break;
+          case 2:
+            changeSol(newton(selectFunc))
+            break;
+          case 3:
+            changeSol(regula(selectFunc))
+            break;
+          case 4:
+            changeSol(secant(selectFunc))
+            break;
+          default:
+            changeSol(bisection(selectFunc))
+        }
+        let endTime = performance.now()
+        changeTimeSpent(endTime-startTime)
+  
+        // -- pyhon --
+        // http://127.0.0.1:8000 django server
+        fetch(`http://127.0.0.1:8000/api/${RootMethod[methodSelect]}/${selectFunc}`)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            changePySol(data.result)
+            changePyTimeSpent(data.time)
+          })
+      }
+      else {
+        changeSol('')
+        changeTimeSpent('')
+        changePySol('')
+        changePyTimeSpent('')
+      }
+    }
 
-      // -- pyhon --
-      // http://127.0.0.1:8000 django server
-      fetch(`http://127.0.0.1:8000/api/${RootMethod[methodSelect]}/${selectFunc}`)
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          changePySol(data.result)
-          changePyTimeSpent(data.time)
-        })
-    }
-    else {
-      changeSol('')
-      changeTimeSpent('')
-      changePySol('')
-      changePyTimeSpent('')
-    }
-  }
+    getResult()
+  }, [bisection, changePySol, changePyTimeSpent, changeSol, changeTimeSpent, methodSelect, newton, regula, secant, selectFunc])
 
   const selectFunction = () => {
     return (
@@ -68,7 +93,8 @@ export default function FindingRootComponent() {
       <div className="row my-3 px-1">
         {/* show function */}
         <div className="col-7 rounded-3">
-          <select className="form-select" id="funcSelect" defaultValue='0' onChange={(event)=> {changeSelectFunc(event.target.value);getResult() }}>
+          <select className="form-select" id="funcSelect" defaultValue='0' 
+            onChange={(event)=> {changeSelectFunc(Number(event.target.value))}}>
             <option value="0">Choose Function...</option>
             { selectFunction() }
           </select>
@@ -77,7 +103,8 @@ export default function FindingRootComponent() {
         {/* select method for find solution */}
         <div className="input-group col">
           <label className="input-group-text" htmlFor="methodSelect">Method</label>
-          <select className="form-select" id="methodSelect" defaultValue='0' onChange={(event)=> {setMethodSelect(event.target.value); getResult()}}>
+          <select className="form-select" id="methodSelect" defaultValue='0' 
+            onChange={(event)=> {setMethodSelect(Number(event.target.value))}}>
             <option value="0">Choose...</option>
             <option value="1">Bisection</option>
             <option value="2">Newton</option>

@@ -1,4 +1,4 @@
-src/wasm/mjs/findingIntegral.mjs: src/wasm/c/findingIntegral.c
+wasm:
 	emcc --no-entry src/wasm/c/findingIntegral.c -o src/wasm/mjs/findingIntegral.mjs  \
 	  -s ENVIRONMENT='web'  \
 	  -s SINGLE_FILE=1  \
