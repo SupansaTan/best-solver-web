@@ -95,7 +95,7 @@ export default function FindingRootComponent() {
   return(
     <React.Fragment>
       <div className="row my-3 px-1">
-        {/* show function */}
+        {/* select function */}
         <div className="col-7 rounded-3">
           <select className="form-select" id="funcSelect" defaultValue='0' 
             onChange={(event)=> {changeSelectFunc(Number(event.target.value))}}>

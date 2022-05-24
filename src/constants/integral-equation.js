@@ -12,7 +12,7 @@ export const IntegralEquation = {
 }
 
 export const IntegralMethod = {
-  1: 'Reimann',
-  2: 'Trapezoid',
-  3: 'Simpson'
+  1: 'RiemannSum',
+  2: 'TrapezoidRule',
+  3: 'SimsonRule'
 }
