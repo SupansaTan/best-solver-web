@@ -164,7 +164,7 @@ double simpson(double a, double b, int N){
         Nx1 += dx2;
         Nx2 += dx2;
     }
-    result = sum*dx/3
+    result = sum*dx/3;
     return sum;
 }
 
