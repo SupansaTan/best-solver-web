@@ -14,15 +14,18 @@ export const ResultProvider = ({ children }) => {
   const [timeSpent, setTimeSpent] = useState('')
   const [pysol, setPySol] = useState('')
   const [pytimeSpent, setPyTimeSpent] = useState('')
+  const [graph, setGraph] = useState('')
 
   const changeSol = (solution) => setSol(solution);
   const changeTimeSpent = (time) => setTimeSpent(time)
   const changePySol = (solution) => setPySol(solution);
   const changePyTimeSpent = (time) => setPyTimeSpent(time)
+  const changeGraphData = (graph) => setGraph(graph)
 
   return(
     <ResultContext.Provider value={{ sol, changeSol, timeSpent, changeTimeSpent, 
-                                    pysol, changePySol, pytimeSpent, changePyTimeSpent}}>
+                                    pysol, changePySol, pytimeSpent, changePyTimeSpent,
+                                    graph, changeGraphData }}>
       { children }
     </ResultContext.Provider>
   )

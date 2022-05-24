@@ -13,7 +13,7 @@ export default function FindingRootComponent() {
   const [secant, setSecant] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
   const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
-  const { pysol, pytimeSpent, changePySol, changePyTimeSpent } = useContext(ResultContext)
+  const { pysol, pytimeSpent, changePySol, changePyTimeSpent, graph, changeGraphData } = useContext(ResultContext)
   const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(
@@ -59,10 +59,12 @@ export default function FindingRootComponent() {
           .then(data => {
             changePySol(data.result)
             changePyTimeSpent(data.time)
+            changeGraphData(data.graph)
           })
           .catch(error => {
             changePySol('')
             changePyTimeSpent('')
+            changeGraphData('')
           })
       }
       else {
@@ -70,6 +72,7 @@ export default function FindingRootComponent() {
         changeTimeSpent('')
         changePySol('')
         changePyTimeSpent('')
+        changeGraphData('')
       }
     }
 
@@ -126,6 +129,8 @@ export default function FindingRootComponent() {
         <h1>Python</h1>
         <p>{ 'solution : ' + pysol }</p>
         <p>{ 'time spent : ' + pytimeSpent }</p>
+        <h1>Graph</h1>
+        <img alt="root" src={'data:image/jpeg;base64,' + graph}></img>
       </div>
     </React.Fragment>
   )
