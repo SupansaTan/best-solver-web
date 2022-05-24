@@ -8,7 +8,7 @@ const contextDefault = {
 export const SelectFunctionContext = React.createContext(contextDefault);
 
 export const SelectFunctionProvider = ({ children }) => {
-  const [selectFunc, setSelectFunc] = useState(0)
+  const [selectFunc, setSelectFunc] = useState(1)
 
   const changeSelectFunc = (num) => setSelectFunc(num)
 

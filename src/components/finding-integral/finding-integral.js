@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
-import createModule from "../../wasm/mjs/findingRoot.mjs";
+import createModule from "../../wasm/mjs/findingIntegral.mjs";
 import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
 import { IntegralMethod, IntegralEquation } from "../../constants/integral-equation.js";
