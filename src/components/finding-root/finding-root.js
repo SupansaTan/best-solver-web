@@ -60,6 +60,10 @@ export default function FindingRootComponent() {
             changePySol(data.result)
             changePyTimeSpent(data.time)
           })
+          .catch(error => {
+            changePySol('')
+            changePyTimeSpent('')
+          })
       }
       else {
         changeSol('')
