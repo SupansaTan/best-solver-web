@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <emscripten.h>
+#include <stdlib.h>
 #include <math.h>
 #include <time.h>
 int selectFunc = 1;
@@ -84,43 +85,32 @@ double df(double x)
   return 0;
 }
 
-double bisection(float a, float b, int step)
+double bisection(float a, float b, float tol)
 {
   int i;
-  double an, bn, mn, fmn;
+  double an, bn, mn, fmn, fa, fb;
 
-  if(f(a)*f(b) >=  0)
-  {
-    return -1;
-  }
-
+  i = 1;
   an = a;
   bn = b;
-  for(i=0; i<step; i++)
-  {
-    mn = (an+bn)/2;
+  fa = f(a);
+  fb = f(b);
+  while((bn-an) > tol) {
+    mn = an + (bn-an)/2.0;
     fmn = f(mn);
+    i += 1;
 
-    if(f(an)*fmn < 0)
-    {
-      an = an;
-      bn = mn;
-    }
-    else if(f(bn)*fmn < 0)
+    if(fa*fmn >= 0)
     {
       an = mn;
-      bn = bn;
+      fa = fmn;
     }
-    else if(fmn == 0)
-    {
-      return mn;  // found exact solution
-    }
-    else
-    {
-      return -1;
+    else {
+      bn = mn;
+      fb = fmn;
     }
   }
-  return (an+bn)/2;
+  return an + (bn-an)/2.0;
 }
 
 EMSCRIPTEN_KEEPALIVE
@@ -128,7 +118,7 @@ double findBisection(int num)
 {
   selectFunc = num;
   double result;
-  result = bisection(-0.7, 5, 16);
+  result = bisection(-1, 5, 0.01);
 
   return result;
 }
@@ -177,7 +167,7 @@ double findNewton(int num)
 {
   selectFunc = num;
   double result;
-  result = newton(-0.7, 5, 16);
+  result = newton(1.0, 1e-15, 16);
 
   return result;
 }

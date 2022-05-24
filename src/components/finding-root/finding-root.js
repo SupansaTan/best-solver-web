@@ -2,9 +2,8 @@ import React, { useState, useEffect, useContext } from "react"
 import createModule from "../../wasm/mjs/findingRoot.mjs";
 import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
-import { RootMethod, RootEquation } from "../../constants/root-equation.js";
+import { RootMethod } from "../../constants/root-equation.js";
 import { Equation } from "../../constants/equation.js";
-import MathJax from 'react-mathjax';
 
 export default function FindingRootComponent() {
   const [bisection, setBisection] = useState();
@@ -17,7 +16,7 @@ export default function FindingRootComponent() {
   const [timeSpentSecant, setTimeSpentSecant] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
   const { changeSol, changeTimeSpent } = useContext(ResultContext)
-  const { changePySol, changePyTimeSpent, graph, changeGraphData } = useContext(ResultContext)
+  const { changePySol, changePyTimeSpent, changeGraphData } = useContext(ResultContext)
   const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(

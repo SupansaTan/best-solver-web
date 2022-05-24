@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react"
 import createModule from "../../wasm/mjs/findingIntegral.mjs";
 import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
-import { IntegralMethod, IntegralEquation } from "../../constants/integral-equation.js";
+import { IntegralMethod } from "../../constants/integral-equation.js";
 import { Equation } from "../../constants/equation.js";
 
 export default function FindingIntegralComponent() {
@@ -10,8 +10,8 @@ export default function FindingIntegralComponent() {
   const [trapezoid, setTrapezoid] = useState();
   const [simpson, setSimpson] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
-  const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
-  const { pysol, pytimeSpent, changePySol, changePyTimeSpent, graph, changeGraphData } = useContext(ResultContext)
+  const { changeSol, changeTimeSpent } = useContext(ResultContext)
+  const { changePySol, changePyTimeSpent, changeGraphData } = useContext(ResultContext)
   const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(
