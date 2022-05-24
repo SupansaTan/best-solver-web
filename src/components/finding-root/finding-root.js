@@ -120,18 +120,6 @@ export default function FindingRootComponent() {
           </select>
         </div>
       </div>
-
-      {/* result */}
-      <div className="p-2">
-        <h1>Web Assambly</h1>
-        <p>{ 'solution : ' + sol }</p>
-        <p>{ 'time spent : ' + timeSpent }</p>
-        <h1>Python</h1>
-        <p>{ 'solution : ' + pysol }</p>
-        <p>{ 'time spent : ' + pytimeSpent }</p>
-        <h1>Graph</h1>
-        <img alt="root" src={'data:image/jpeg;base64,' + graph}></img>
-      </div>
     </React.Fragment>
   )
 }

@@ -1,13 +1,13 @@
 import React from "react"
-import FunctionSelector from "../../components/function-selector/function-selector";
 import FindingRootComponent from "../../components/finding-root/finding-root";
+import ResultComponent from "../../components/result/result";
 
 function RootPage() {
   return(
     <React.Fragment>
       <h1>Root Finding</h1>
-      <FunctionSelector/>
       <FindingRootComponent/>
+      <ResultComponent/>
     </React.Fragment>
   )
 }
