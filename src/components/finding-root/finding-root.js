@@ -11,9 +11,13 @@ export default function FindingRootComponent() {
   const [newton, setNewton] = useState();
   const [regula, setRegula] = useState();
   const [secant, setSecant] = useState();
+  const [timeSpentBisection, setTimeSpentBisection] = useState();
+  const [timeSpentNewton, setTimeSpentNewton] = useState();
+  const [timeSpentRegula, setTimeSpentRegula] = useState();
+  const [timeSpentSecant, setTimeSpentSecant] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
-  const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
-  const { pysol, pytimeSpent, changePySol, changePyTimeSpent, graph, changeGraphData } = useContext(ResultContext)
+  const { changeSol, changeTimeSpent } = useContext(ResultContext)
+  const { changePySol, changePyTimeSpent, graph, changeGraphData } = useContext(ResultContext)
   const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(
@@ -23,6 +27,10 @@ export default function FindingRootComponent() {
       setNewton(() => Module.cwrap('findNewton', 'number', ['number']));
       setRegula(() => Module.cwrap('findRegulaFalsi', 'number', ['number']));
       setSecant(() => Module.cwrap('findSecant', 'number', ['number']));
+      setTimeSpentBisection(() => Module.cwrap('timeSpentBisection', 'number', ['number']));
+      setTimeSpentNewton(() => Module.cwrap('timeSpentNewton', 'number', ['number']));
+      setTimeSpentRegula(() => Module.cwrap('timeSpentRegulaFalsi', 'number', ['number']));
+      setTimeSpentSecant(() => Module.cwrap('timeSpentSecant', 'number', ['number']));
     });
   }, []);
 
@@ -30,25 +38,26 @@ export default function FindingRootComponent() {
     const getResult = () => {
       if(selectFunc>0 && methodSelect>0) {
         // -- wasm --
-        let startTime = performance.now()
         switch(methodSelect) {
           case 1:
             changeSol(bisection(selectFunc))
+            changeTimeSpent(timeSpentBisection(selectFunc))
             break;
           case 2:
             changeSol(newton(selectFunc))
+            changeTimeSpent(timeSpentNewton(selectFunc))
             break;
           case 3:
             changeSol(regula(selectFunc))
+            changeTimeSpent(timeSpentRegula(selectFunc))
             break;
           case 4:
             changeSol(secant(selectFunc))
+            changeTimeSpent(timeSpentSecant(selectFunc))
             break;
           default:
             changeSol(bisection(selectFunc))
         }
-        let endTime = performance.now()
-        changeTimeSpent(endTime-startTime)
   
         // -- pyhon --
         // http://127.0.0.1:8000 django server

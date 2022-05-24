@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <emscripten.h>
 #include <math.h>
+#include <time.h>
 int selectFunc = 1;
 
 double f(double x)
@@ -126,12 +127,24 @@ EMSCRIPTEN_KEEPALIVE
 double findBisection(int num)
 {
   selectFunc = num;
-
   double result;
   result = bisection(-0.7, 5, 16);
-  printf("bisection\n");
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentBisection(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = bisection(-0.7, 5, 16);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
 
 double newton(float x0, float e, int maxIter)
@@ -163,12 +176,24 @@ EMSCRIPTEN_KEEPALIVE
 double findNewton(int num)
 {
   selectFunc = num;
-
   double result;
   result = newton(-0.7, 5, 16);
-  printf("newton\n");
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentNewton(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = newton(-0.7, 5, 16);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
 
 double secant(float a, float b, int step)
@@ -214,12 +239,24 @@ EMSCRIPTEN_KEEPALIVE
 double findSecant(int num)
 {
   selectFunc = num;
-
   double result;
   result = secant(-0.7, 5, 16);
-  printf("secant\n");
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentSecant(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = secant(-0.7, 5, 16);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
 
 double regula(float a, float b, int maxIter)
@@ -258,10 +295,22 @@ EMSCRIPTEN_KEEPALIVE
 double findRegulaFalsi(int num)
 {
   selectFunc = num;
-
   double result;
   result = regula(-0.7, 5, 16);
-  printf("regula\n");
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentRegulaFalsi(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = regula(-0.7, 5, 16);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
