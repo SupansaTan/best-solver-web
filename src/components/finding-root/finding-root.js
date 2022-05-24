@@ -10,6 +10,7 @@ export default function FindingRootComponent() {
   const [root, setRoot] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
   const { sol, timeSpent, changeSol, changeTimeSpent } = useContext(ResultContext)
+  const { pysol, pytimeSpent, changePySol, changePyTimeSpent } = useContext(ResultContext)
   const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(
@@ -21,14 +22,28 @@ export default function FindingRootComponent() {
 
   const getResult = () => {
     if(selectFunc>0 && methodSelect>0) {
+      // -- wasm --
       let startTime = performance.now()
       changeSol(root(selectFunc))
       let endTime = performance.now()
       changeTimeSpent(endTime-startTime)
+
+      // -- pyhon --
+      // http://127.0.0.1:8000 django server
+      fetch(`http://127.0.0.1:8000/api/${RootMethod[methodSelect]}/${selectFunc}`)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          changePySol(data.result)
+          changePyTimeSpent(data.time)
+        })
     }
     else {
       changeSol('')
       changeTimeSpent('')
+      changePySol('')
+      changePyTimeSpent('')
     }
   }
 
@@ -74,8 +89,12 @@ export default function FindingRootComponent() {
 
       {/* result */}
       <div className="p-2">
+        <h1>Web Assambly</h1>
         <p>{ 'solution : ' + sol }</p>
         <p>{ 'time spent : ' + timeSpent }</p>
+        <h1>Python</h1>
+        <p>{ 'solution : ' + pysol }</p>
+        <p>{ 'time spent : ' + pytimeSpent }</p>
       </div>
     </React.Fragment>
   )
