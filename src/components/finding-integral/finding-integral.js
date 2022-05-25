@@ -9,6 +9,9 @@ export default function FindingIntegralComponent() {
   const [reimann, setReimann] = useState();
   const [trapezoid, setTrapezoid] = useState();
   const [simpson, setSimpson] = useState();
+  const [timeSpentReimann, setTimeSpentReimann] = useState();
+  const [timeSpentTrapezoid, setTimeSpentTrapezoid] = useState();
+  const [timeSpentSimpson, setTimeSpentSimpson] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
   const { changeSol, changeTimeSpent } = useContext(ResultContext)
   const { changePySol, changePyTimeSpent, changeGraphData } = useContext(ResultContext)
@@ -19,7 +22,10 @@ export default function FindingIntegralComponent() {
     createModule().then((Module) => {
       setReimann(() => Module.cwrap('findReimann', 'number', ['number']));
       setTrapezoid(() => Module.cwrap('findTrapezoid', 'number', ['number']));
-      setSimpson(() => Module.cwrap('findSimpson', 'number', ['number']))
+      setSimpson(() => Module.cwrap('findSimpson', 'number', ['number']));
+      setTimeSpentReimann(() => Module.cwrap('timeSpentReimann', 'number', ['number']))
+      setTimeSpentTrapezoid(() => Module.cwrap('timeSpentTrapezoid', 'number', ['number']))
+      setTimeSpentSimpson(() => Module.cwrap('timeSpentSimpson', 'number', ['number']))
     });
   }, []);
 
@@ -27,25 +33,22 @@ export default function FindingIntegralComponent() {
     const getResult = () => {
       if(selectFunc>0 && methodSelect>0) {
         // -- wasm --
-        let startTime;
         switch(methodSelect) {
           case 1:
-            startTime = performance.now()
             changeSol(reimann(selectFunc))
+            changeTimeSpent(timeSpentReimann(selectFunc))
             break;
           case 2:
-            startTime = performance.now()
             changeSol(trapezoid(selectFunc))
+            changeTimeSpent(timeSpentTrapezoid(selectFunc))
             break;
           case 3:
-            startTime = performance.now()
             changeSol(simpson(selectFunc))
+            changeTimeSpent(timeSpentSimpson(selectFunc))
             break;
           default:
             return;
         }
-        let endTime = performance.now()
-        changeTimeSpent(endTime-startTime)
   
         // -- pyhon --
         // http://127.0.0.1:8000 django server
