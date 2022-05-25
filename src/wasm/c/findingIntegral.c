@@ -129,7 +129,7 @@ double trapezoid(double a, double b, int N){
         Nx1 += dx;
     }
     result = sum*dx/2;
-    return sum;
+    return result;
 }
 
 EMSCRIPTEN_KEEPALIVE
@@ -165,7 +165,7 @@ double simpson(double a, double b, int N){
         Nx2 += dx2;
     }
     result = sum*dx/3;
-    return sum;
+    return result;
 }
 
 EMSCRIPTEN_KEEPALIVE
