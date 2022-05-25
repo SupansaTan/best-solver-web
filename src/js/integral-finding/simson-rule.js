@@ -1,29 +1,41 @@
 import { getFunction } from "../function";
 
+function linespace(startValue, stopValue, cardinality) {
+  var arr = [];
+  var step = (stopValue - startValue) / (cardinality - 1);
+  for (var i = 0; i < cardinality; i++) {
+    arr.push(startValue + (step * i));
+  }
+  return arr;
+}
+
 function simson(f, a, b, N){
-  if((N % 2 ) !== 0){
+  if((N % 2) === 1){
     return -1;
   }
 
+  let result
+  let y=[], y1=[], y2=[], y3=[], sum = []
   let dx = ( b - a ) / N;
-  let dx2 = 2*dx;
-  let Nx = a , Nx1 = a + dx , Nx2 = a + dx2;
-  let xmid;
-  let sum = 0;
-  let result;
+  let x = linespace(a, b, N+1);
 
-  if(f(a)*f(b) >=  0){
-    return -1; // fails (both have the same sign)
+  x.map(item => y.push(f(item)))
+  y.forEach((item, index) => {
+    if(index%2 === 0 && index<N) { 
+      y1.push(item) 
+    }
+    if((index > 0) && (index%2 !== 0)) {
+      y2.push(item) 
+    }
+    if((index > 1) && (index%2 === 0)) {
+      y3.push(item) 
+    }
+  })
+  for(var i = 0; i < y1.length; i++) {
+    sum.push(y1[i] + 4*y2[i] + y3[i]);
   }
 
-  for(let i = 1; i <= N/2 ; i++){
-    sum = f(Nx) + f(Nx2) + 4 * f(Nx1);
-    Nx += dx2;
-    Nx1 += dx2;
-    Nx2 += dx2;
-  }
-
-  result = sum*dx/3;
+  result = dx/3 * sum.reduce((a, b) => a + b, 0)
   return result;
 }
 

@@ -36,7 +36,7 @@ export default function FindingIntegralComponent() {
     const getResult = () => {
       let result;
       if(selectFunc>0 && methodSelect>0) {
-        // -- wasm --
+        // -- wasm & JS --
         switch(methodSelect) {
           case 1:
             changeSol(reimann(selectFunc))
