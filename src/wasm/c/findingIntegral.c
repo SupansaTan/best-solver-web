@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <emscripten.h>
 #include <math.h>
+#include <time.h>
+#include <stdlib.h>
 int selectFunc = 1;
 
 double f(double x)
@@ -23,22 +25,22 @@ double f(double x)
       return pow(x,2) - 2;
       break;
     case 6:
-      return exp(pow(-x,2)) - x;
+      return exp(-pow(x,2)) - x;
       break;
     case 7:
       return -x + 1;
       break;
     case 8:
-      return pow(1/5,x) - 2;
+      return pow(0.2,x) - 2;
       break;
     case 9:
-      return pow(x,3) - 3*pow(x,2) - 4*x + 5;
+      return pow(x,3) - 3*(pow(x,2)) - 4*x + 5;
       break;
     case 10:
-      return - pow((1/3),x) + 2;
+      return - pow(0.3333,x) + 2;
       break;
     default:
-      return -x;
+      return 0;
   }
   return 0;
 }
@@ -63,22 +65,22 @@ double df(double x)
       return 2*x;
       break;
     case 6:
-      return exp(pow(x,2))*(2*x) - 1;
+      return -2 * x * exp(-pow(x,2)) - 1;
       break;
     case 7:
       return -1;
       break;
     case 8:
-      return -log(5) * pow(1/5,x);
+      return -log(5) * pow(0.2,x);
       break;
     case 9:
       return 3*pow(x,2) - 6*x - 4;
       break;
     case 10:
-      return log(3) * pow((1/3),x);
+      return log(3) * pow(0.3333,x);
       break;
     default:
-      return -x;
+      return 0;
   }
   return 0;
 }
@@ -108,9 +110,23 @@ double findReimann(int num)
   selectFunc = num;
 
   double result;
-  result = reimann(-0.7, 5, 16);
+  result = reimann(-1.0, 2, 20);
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentReimann(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = reimann(-1.0, 2, 20);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
 
 double trapezoid(double a, double b, int N){
@@ -138,9 +154,23 @@ double findTrapezoid(int num)
   selectFunc = num;
 
   double result;
-  result = trapezoid(-0.7, 5, 20);
+  result = trapezoid(-1.0, 2, 20);
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentTrapezoid(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = trapezoid(-1.0, 2, 20);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
 
 double simpson(double a, double b, int N){
@@ -174,7 +204,21 @@ double findSimpson(int num)
   selectFunc = num;
 
   double result;
-  result = simpson(-0.7, 5, 20);
+  result = simpson(-1.0, 2, 20);
 
   return result;
+}
+
+EMSCRIPTEN_KEEPALIVE
+double timeSpentSimpson(int num)
+{
+  selectFunc = num;
+  double result;
+
+  clock_t begin = clock();
+  result = simpson(-1.0, 2, 20);
+  clock_t end = clock();
+
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  return time_spent * 1000;
 }
