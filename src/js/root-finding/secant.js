@@ -38,7 +38,7 @@ function secant(f, a, b, step)
 
 export function getSecant(funcSelect) {
   const t0 = performance.now();
-  const result = secant(getFunction(funcSelect), -1.0, 5, 16)
+  const result = secant(getFunction(funcSelect), -1.0, 2, 16)
   const t1 = performance.now();
   return [result, t1-t0]
 }

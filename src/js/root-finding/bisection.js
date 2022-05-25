@@ -26,7 +26,7 @@ function bisection(f, a, b, tol) {
 
 export function getBisection(funcSelect) {
   const t0 = performance.now();
-  const result = bisection(getFunction(funcSelect), -1, 5, 0.01)
+  const result = bisection(getFunction(funcSelect), -1, 2, 0.01)
   const t1 = performance.now();
   return [result, t1-t0]
 }

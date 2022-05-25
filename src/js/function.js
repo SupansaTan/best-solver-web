@@ -19,7 +19,7 @@ function f5(x) {
 }
 
 function f6(x) {
-  return Math.exp((-x)**2) - x
+  return Math.exp(-Math.pow(x,2)) - x
 }
 
 function f7(x) {
@@ -27,15 +27,15 @@ function f7(x) {
 }
 
 function f8(x) {
-  return (1/5)**x - 2
+  return Math.pow(1/5,x) - 2
 }
 
 function f9(x) {
-  return x**3 - 3*x**2 - 4*x + 5
+  return Math.pow(x,3) - 3*Math.pow(x,2) - 4*x + 5
 }
 
 function f10(x) {
-  return -((1/3)**x) + 2
+  return -(Math.pow(1/3,x)) + 2
 }
 
 function df1(x) {
@@ -59,7 +59,7 @@ function df5(x) {
 }
 
 function df6(x) {
-  return Math.exp(Math.pow(x,2))*(2*x) - 1
+  return -2*x*Math.exp(-Math.pow(x,2)) - 1
 }
 
 function df7(x) {

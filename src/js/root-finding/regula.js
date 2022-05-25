@@ -32,7 +32,7 @@ function regula(f, a, b, maxIter) {
 
 export function getRegula(funcSelect) {
   const t0 = performance.now();
-  const result = regula(getFunction(funcSelect), -1.0, 5, 16)
+  const result = regula(getFunction(funcSelect), -1.0, 2, 16)
   const t1 = performance.now();
   return [result, t1-t0]
 }

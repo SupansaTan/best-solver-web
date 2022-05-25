@@ -40,7 +40,7 @@ double f(double x)
       return - pow(0.3333,x) + 2;
       break;
     default:
-      return -x;
+      return 0;
   }
   return 0;
 }
@@ -65,7 +65,7 @@ double df(double x)
       return 2*x;
       break;
     case 6:
-      return -2 * exp(-pow(x,2))*x - 1;
+      return -2 * x * exp(-pow(x,2)) - 1;
       break;
     case 7:
       return -1;
@@ -80,7 +80,7 @@ double df(double x)
       return log(3) * pow(0.3333,x);
       break;
     default:
-      return -x;
+      return 0;
   }
   return 0;
 }
@@ -118,7 +118,7 @@ double findBisection(int num)
 {
   selectFunc = num;
   double result;
-  result = bisection(-1, 5, 0.01);
+  result = bisection(-1.0, 2, 0.01);
 
   return result;
 }
@@ -130,7 +130,7 @@ double timeSpentBisection(int num)
   double result;
 
   clock_t begin = clock();
-  result = bisection(-0.7, 5, 16);
+  result = bisection(-1.0, 2, 16);
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -179,7 +179,7 @@ double timeSpentNewton(int num)
   double result;
 
   clock_t begin = clock();
-  result = newton(-0.7, 5, 16);
+  result = newton(1.0, 1e-15, 16);
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -230,7 +230,7 @@ double findSecant(int num)
 {
   selectFunc = num;
   double result;
-  result = secant(-0.7, 5, 16);
+  result = secant(-1.0, 2, 16);
 
   return result;
 }
@@ -242,7 +242,7 @@ double timeSpentSecant(int num)
   double result;
 
   clock_t begin = clock();
-  result = secant(-0.7, 5, 16);
+  result = secant(-1.0, 2, 16);
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -286,7 +286,7 @@ double findRegulaFalsi(int num)
 {
   selectFunc = num;
   double result;
-  result = regula(-0.7, 5, 16);
+  result = regula(-1.0, 2, 16);
 
   return result;
 }
@@ -298,7 +298,7 @@ double timeSpentRegulaFalsi(int num)
   double result;
 
   clock_t begin = clock();
-  result = regula(-0.7, 5, 16);
+  result = regula(-1.0, 2, 16);
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
