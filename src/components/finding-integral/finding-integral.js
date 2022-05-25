@@ -4,6 +4,9 @@ import { ResultContext } from "../../context/result.js";
 import { SelectFunctionContext } from "../../context/select-function.js";
 import { IntegralMethod } from "../../constants/integral-equation.js";
 import { Equation } from "../../constants/equation.js";
+import { getSimson } from "../../js/integral-finding/simson-rule.js";
+import { getTrapezoid } from "../../js/integral-finding/trapezoid-rule.js";
+import { getReimann } from "../../js/integral-finding/riemann-sum.js";
 
 export default function FindingIntegralComponent() {
   const [reimann, setReimann] = useState();
@@ -14,7 +17,7 @@ export default function FindingIntegralComponent() {
   const [timeSpentSimpson, setTimeSpentSimpson] = useState();
   const [methodSelect, setMethodSelect] = useState(0);
   const { changeSol, changeTimeSpent } = useContext(ResultContext)
-  const { changePySol, changePyTimeSpent, changeGraphData } = useContext(ResultContext)
+  const { changePySol, changePyTimeSpent, changeGraphData, changeJsSol, changeJsTimeSpent } = useContext(ResultContext)
   const { selectFunc, changeSelectFunc } = useContext(SelectFunctionContext)
 
   useEffect(
@@ -31,20 +34,33 @@ export default function FindingIntegralComponent() {
 
   useEffect(() => {
     const getResult = () => {
+      let result;
       if(selectFunc>0 && methodSelect>0) {
         // -- wasm --
         switch(methodSelect) {
           case 1:
             changeSol(reimann(selectFunc))
             changeTimeSpent(timeSpentReimann(selectFunc))
+
+            result = getReimann(selectFunc)
+            changeJsSol(result[0])
+            changeJsTimeSpent(result[1])
             break;
           case 2:
             changeSol(trapezoid(selectFunc))
             changeTimeSpent(timeSpentTrapezoid(selectFunc))
+
+            result = getTrapezoid(selectFunc)
+            changeJsSol(result[0])
+            changeJsTimeSpent(result[1])
             break;
           case 3:
             changeSol(simpson(selectFunc))
             changeTimeSpent(timeSpentSimpson(selectFunc))
+
+            result = getSimson(selectFunc)
+            changeJsSol(result[0])
+            changeJsTimeSpent(result[1])
             break;
           default:
             return;
