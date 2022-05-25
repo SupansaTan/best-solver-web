@@ -6,6 +6,10 @@
     background-color: $light-grey;
   }
 
+  &-darkblue {
+    background-color: $dark-blue;
+  }
+
   &-grey {
     background-color: $grey;
   }
@@ -30,5 +34,9 @@
 .text {
   &-blue {
     color: $blue !important;
+  }
+
+  &-darkblue {
+    color:$dark-blue !important;
   }
 }

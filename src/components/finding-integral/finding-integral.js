@@ -89,6 +89,8 @@ export default function FindingIntegralComponent() {
         changePySol('')
         changePyTimeSpent('')
         changeGraphData('')
+        changeJsSol('')
+        changeJsTimeSpent('')
       }
     }
 
