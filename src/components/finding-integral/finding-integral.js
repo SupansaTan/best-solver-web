@@ -115,7 +115,7 @@ export default function FindingIntegralComponent() {
 
   return(
     <React.Fragment>
-      <div className="row my-3 mx-1">
+      <div className="row my-3 px-1">
         {/* select function */}
         <div className="col-7 rounded-3">
           <select className="form-select" id="funcSelect" defaultValue='0' 
