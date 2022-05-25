@@ -174,28 +174,29 @@ double timeSpentTrapezoid(int num)
 }
 
 double simpson(double a, double b, int N){
-    if((N % 2 ) != 0){
-        return -1;
-    }
-    double dx = ( b - a ) / N;
-    double dx2 = 2*dx;
-    double Nx = a , Nx1 = a + dx , Nx2 = a + dx2;
-    double xmid;
-    double sum = 0;
-    double result;
+  if((N % 2) != 0){
+    return -1;
+  }
+  double dx = ( b - a ) / N;
+  double result;
+  double integration;
+  double k;
 
-    if(f(a)*f(b) >=  0){
-        return -1; // fails (both have the same sign)
+  integration = f(a) + f(b);
+  for(int i = 1; i <= N-1; i++){
+    k = a + i*dx;
+    if(i%2==0)
+    {
+      integration = integration + 2 * f(k);
     }
+    else
+    {
+      integration = integration + 4 * f(k);
+    }
+  }
 
-    for(int i = 1; i <= N/2 ; i++){
-        sum = f(Nx) + f(Nx2) + 4 * f(Nx1);
-        Nx += dx2;
-        Nx1 += dx2;
-        Nx2 += dx2;
-    }
-    result = sum*dx/3;
-    return result;
+  result = integration * dx/3;
+  return result;
 }
 
 EMSCRIPTEN_KEEPALIVE
