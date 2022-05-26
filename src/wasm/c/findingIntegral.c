@@ -116,17 +116,21 @@ double findReimann(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentReimann(int num)
+char* timeSpentReimann(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = reimann(-1.0, 2, 20);
+  for(int i=0; i<100; i++) {
+    result = reimann(-1.0, 2, 20);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }
 
 double trapezoid(double a, double b, int N){
@@ -160,17 +164,21 @@ double findTrapezoid(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentTrapezoid(int num)
+char* timeSpentTrapezoid(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = trapezoid(-1.0, 2, 20);
+  for(int i=0; i<100; i++) {
+    result = trapezoid(-1.0, 2, 20);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }
 
 double simpson(double a, double b, int N){
@@ -211,15 +219,19 @@ double findSimpson(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentSimpson(int num)
+char* timeSpentSimpson(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = simpson(-1.0, 2, 20);
+  for(int i=0; i<100; i++) {
+    result = simpson(-1.0, 2, 20);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }

@@ -124,17 +124,21 @@ double findBisection(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentBisection(int num)
+char* timeSpentBisection(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = bisection(-1.0, 2, 16);
+  for(int i=0; i<100; i++) {
+    result = bisection(-1.0, 2, 16);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }
 
 double newton(float x0, float e, int maxIter)
@@ -173,17 +177,21 @@ double findNewton(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentNewton(int num)
+char* timeSpentNewton(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = newton(1.0, 1e-15, 16);
+  for(int i=0; i<100; i++) {
+    result = newton(1.0, 1e-15, 16);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }
 
 double secant(float a, float b, int step)
@@ -236,17 +244,21 @@ double findSecant(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentSecant(int num)
+char* timeSpentSecant(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = secant(-1.0, 2, 16);
+  for(int i=0; i<100; i++) {
+    result = secant(-1.0, 2, 16);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }
 
 double regula(float a, float b, int maxIter)
@@ -292,15 +304,19 @@ double findRegulaFalsi(int num)
 }
 
 EMSCRIPTEN_KEEPALIVE
-double timeSpentRegulaFalsi(int num)
+char* timeSpentRegulaFalsi(int num)
 {
+  char *timeString = malloc(30);
   selectFunc = num;
   double result;
 
   clock_t begin = clock();
-  result = regula(-1.0, 2, 16);
+  for(int i=0; i<100; i++) {
+    result = regula(-1.0, 2, 16);
+  }
   clock_t end = clock();
 
   double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  return time_spent * 1000;
+  sprintf(timeString,"%.3f", (time_spent * 1000)/100);
+  return timeString;
 }
