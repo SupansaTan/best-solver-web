@@ -8,6 +8,7 @@ import { getBisection } from "../../js/root-finding/bisection.js";
 import { getNewton } from "../../js/root-finding/newton.js";
 import { getRegula } from "../../js/root-finding/regula.js";
 import { getSecant } from "../../js/root-finding/secant.js";
+import ResultComponent from "../../components/result/result";
 
 export default function FindingRootComponent() {
   const [bisection, setBisection] = useState();
@@ -156,6 +157,8 @@ export default function FindingRootComponent() {
           </select>
         </div>
       </div>
+
+      { (methodSelect && selectFunc) ? <ResultComponent/>:<></>}
     </React.Fragment>
   )
 }

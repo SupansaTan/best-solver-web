@@ -7,6 +7,7 @@ import { Equation } from "../../constants/equation.js";
 import { getSimson } from "../../js/integral-finding/simson-rule.js";
 import { getTrapezoid } from "../../js/integral-finding/trapezoid-rule.js";
 import { getReimann } from "../../js/integral-finding/riemann-sum.js";
+import ResultComponent from "../../components/result/result";
 
 export default function FindingIntegralComponent() {
   const [reimann, setReimann] = useState();
@@ -136,6 +137,8 @@ export default function FindingIntegralComponent() {
           </select>
         </div>
       </div>
+
+      { (methodSelect && selectFunc) ? <ResultComponent/>:<></>}
     </React.Fragment>
   )
 }
