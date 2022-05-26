@@ -25,8 +25,12 @@ function bisection(f, a, b, tol) {
 }
 
 export function getBisection(funcSelect) {
+  let result;
+
   const t0 = performance.now();
-  const result = bisection(getFunction(funcSelect), -1, 2, 0.01)
+  for(let i=0; i<100; i++) {
+    result = bisection(getFunction(funcSelect), -1, 2, 0.01)
+  }
   const t1 = performance.now();
-  return [result, t1-t0]
+  return [result, ((t1-t0)/100).toFixed(3)]
 }

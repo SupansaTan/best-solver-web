@@ -31,8 +31,12 @@ function regula(f, a, b, maxIter) {
 }
 
 export function getRegula(funcSelect) {
+  let result;
+
   const t0 = performance.now();
-  const result = regula(getFunction(funcSelect), -1.0, 2, 16)
+  for(let i=0; i<100; i++) {
+    result = regula(getFunction(funcSelect), -1.0, 2, 16)
+  }
   const t1 = performance.now();
-  return [result, t1-t0]
+  return [result, ((t1-t0)/100).toFixed(3)]
 }

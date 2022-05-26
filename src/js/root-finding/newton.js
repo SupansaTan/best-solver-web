@@ -24,8 +24,12 @@ function newton(f, df, x0, e, maxIter) {
 }
 
 export function getNewton(funcSelect) {
+  let result;
+
   const t0 = performance.now();
-  const result = newton(getFunction(funcSelect), getDiffFunction(funcSelect), 1.0, 1e-15, 16)
+  for(let i=0; i<100; i++) {
+    result = newton(getFunction(funcSelect), getDiffFunction(funcSelect), 1.0, 1e-15, 16)
+  }
   const t1 = performance.now();
-  return [result, t1-t0]
+  return [result, ((t1-t0)/100).toFixed(3)]
 }

@@ -40,8 +40,12 @@ function simson(f, a, b, N){
 }
 
 export function getSimson(funcSelect) {
+  let result;
+
   const t0 = performance.now();
-  const result = simson(getFunction(funcSelect), -1.0, 2, 20)
+  for(let i=0; i<100; i++) {
+    result = simson(getFunction(funcSelect), -1.0, 2, 20)
+  }
   const t1 = performance.now();
-  return [result, t1-t0]
+  return [result, ((t1-t0)/100).toFixed(3)]
 }
