@@ -26,9 +26,9 @@ export default function FindingIntegralComponent() {
       setReimann(() => Module.cwrap('findReimann', 'number', ['number']));
       setTrapezoid(() => Module.cwrap('findTrapezoid', 'number', ['number']));
       setSimpson(() => Module.cwrap('findSimpson', 'number', ['number']));
-      setTimeSpentReimann(() => Module.cwrap('timeSpentReimann', 'number', ['number']))
-      setTimeSpentTrapezoid(() => Module.cwrap('timeSpentTrapezoid', 'number', ['number']))
-      setTimeSpentSimpson(() => Module.cwrap('timeSpentSimpson', 'number', ['number']))
+      setTimeSpentReimann(() => Module.cwrap('timeSpentReimann', 'string', ['number']))
+      setTimeSpentTrapezoid(() => Module.cwrap('timeSpentTrapezoid', 'string', ['number']))
+      setTimeSpentSimpson(() => Module.cwrap('timeSpentSimpson', 'string', ['number']))
     });
   }, []);
 

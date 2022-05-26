@@ -30,16 +30,17 @@ export default function FindingRootComponent() {
       setNewton(() => Module.cwrap('findNewton', 'number', ['number']));
       setRegula(() => Module.cwrap('findRegulaFalsi', 'number', ['number']));
       setSecant(() => Module.cwrap('findSecant', 'number', ['number']));
-      setTimeSpentBisection(() => Module.cwrap('timeSpentBisection', 'number', ['number']));
-      setTimeSpentNewton(() => Module.cwrap('timeSpentNewton', 'number', ['number']));
-      setTimeSpentRegula(() => Module.cwrap('timeSpentRegulaFalsi', 'number', ['number']));
-      setTimeSpentSecant(() => Module.cwrap('timeSpentSecant', 'number', ['number']));
+      setTimeSpentBisection(() => Module.cwrap('timeSpentBisection', 'string', ['number']));
+      setTimeSpentNewton(() => Module.cwrap('timeSpentNewton', 'string', ['number']));
+      setTimeSpentRegula(() => Module.cwrap('timeSpentRegulaFalsi', 'string', ['number']));
+      setTimeSpentSecant(() => Module.cwrap('timeSpentSecant', 'string', ['number']));
     });
   }, []);
 
   useEffect(() => {
     const getResult = () => {
       let result;
+      clearResultValue()
       if(selectFunc>0 && methodSelect>0) {
         // -- wasm & JS --
         switch(methodSelect) {
@@ -76,7 +77,7 @@ export default function FindingRootComponent() {
             changeJsTimeSpent(result[1])
             break;
           default:
-            changeSol(bisection(selectFunc))
+            return 0;
         }
   
         // -- pyhon --
@@ -97,13 +98,7 @@ export default function FindingRootComponent() {
           })
       }
       else {
-        changeSol('')
-        changeTimeSpent('')
-        changePySol('')
-        changePyTimeSpent('')
-        changeGraphData('')
-        changeJsSol('')
-        changeJsTimeSpent('')
+        clearResultValue()
       }
     }
 
@@ -124,6 +119,16 @@ export default function FindingRootComponent() {
         }
       </React.Fragment>
     )
+  }
+
+  const clearResultValue = () => {
+    changeSol('')
+    changeTimeSpent('')
+    changePySol('')
+    changePyTimeSpent('')
+    changeGraphData('')
+    changeJsSol('')
+    changeJsTimeSpent('')
   }
 
   return(
