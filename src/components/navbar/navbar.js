@@ -5,7 +5,7 @@ function NavbarComponent() {
     <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
-          <a className="navbar-brand" href="#!">Best Solver</a>
+          <a className="navbar-brand" href="#!"><i class="bi bi-calculator-fill me-2"></i>Best Solver</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" 
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
