@@ -68,7 +68,7 @@ export default function FindingIntegralComponent() {
         }
   
         // -- pyhon --
-        // http://127.0.0.1:8000 django server
+        // https://best-solver-api.herokuapp.com django api server
         fetch(`https://best-solver-api.herokuapp.com/api/${IntegralMethod[methodSelect]}/${selectFunc}`)
           .then(response => {
             return response.json();
